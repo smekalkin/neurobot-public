@@ -1,0 +1,24 @@
+{
+  "id": "google-drive",
+  "title": "Google Drive",
+  "category": "Файлы",
+  "icon": "folder",
+  "color": "#1FA463",
+  "description": "Работа с файлами Google Drive через официальный API и OAuth refresh token. По умолчанию только чтение.",
+  "help": "Создайте OAuth-клиент в Google Cloud, включите Drive API и получите refresh token. Для минимального доступа используйте drive.file: он видит только файлы, созданные или явно открытые приложением. Для чтения всего диска нужны drive.readonly, для записи — drive; Google может потребовать проверку приложения. Root ID оставьте root или укажите ID отдельной общей папки.",
+  "fields": [
+    {"key":"GDRIVE_CLIENT_ID","label":"Идентификатор OAuth-клиента","secret":false,"required":true},
+    {"key":"GDRIVE_CLIENT_SECRET","label":"Секрет OAuth-клиента","secret":true,"required":true},
+    {"key":"GDRIVE_REFRESH_TOKEN","label":"Токен обновления OAuth","secret":true,"required":true},
+    {"key":"GDRIVE_ROOT_ID","label":"ID корневой папки","secret":false,"required":false,"default":"root","helper":"Рекомендуется указать отдельную папку, доступную агенту."}
+  ],
+  "configured_when": ["GDRIVE_CLIENT_ID","GDRIVE_CLIENT_SECRET","GDRIVE_REFRESH_TOKEN"],
+  "instructions_file": "google-drive.md",
+  "readonly_file": "google-drive.readonly.md",
+  "write_file": "google-drive.write.md",
+  "write_supported": true,
+  "write_env": "GDRIVE_ALLOW_WRITE",
+  "write_help": "OAuth-разрешения должны позволять запись (drive.file или drive).",
+  "check_file": "google-drive.check.py",
+  "tool": {"file":"deploy/agent-tools/agent-gdrive.py","dest":"/usr/local/bin/agent-gdrive"}
+}

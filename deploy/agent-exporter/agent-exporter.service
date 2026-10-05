@@ -1,0 +1,15 @@
+[Unit]
+Description=neurobot agent-exporter (pushes agent status to agentdesk)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+EnvironmentFile=/etc/agent-exporter.env
+ExecStart=/usr/bin/python3 /opt/agent-exporter/agent_exporter.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

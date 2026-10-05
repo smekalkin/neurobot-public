@@ -1,0 +1,25 @@
+{
+  "id": "dropbox",
+  "title": "Dropbox",
+  "category": "Файлы",
+  "icon": "cloud",
+  "color": "#0061FF",
+  "description": "Работа с файлами Dropbox через официальный API. По умолчанию только чтение; запись включается отдельным переключателем.",
+  "help": "Создайте приложение в Dropbox App Console, выберите минимальный доступ App folder (или Full Dropbox, если это действительно нужно), выдайте files.metadata.read и files.content.read. Для записи добавьте files.content.write. Сгенерируйте access token и вставьте его ниже. Для постоянной production-работы позднее лучше заменить ручной токен на OAuth refresh flow.",
+  "fields": [{
+    "key": "DROPBOX_ACCESS_TOKEN",
+    "label": "Токен доступа Dropbox",
+    "secret": true,
+    "required": true,
+    "helper": "Токен отдельного приложения с минимально необходимыми разрешениями."
+  }],
+  "configured_when": ["DROPBOX_ACCESS_TOKEN"],
+  "instructions_file": "dropbox.md",
+  "readonly_file": "dropbox.readonly.md",
+  "write_file": "dropbox.write.md",
+  "write_supported": true,
+  "write_env": "DROPBOX_ALLOW_WRITE",
+  "write_help": "Приложению Dropbox нужен scope files.content.write.",
+  "check_file": "dropbox.check.py",
+  "tool": {"file": "deploy/agent-tools/agent-dropbox.py", "dest": "/usr/local/bin/agent-dropbox"}
+}

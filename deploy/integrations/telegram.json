@@ -1,0 +1,49 @@
+{
+  "id": "telegram",
+  "title": "Telegram (бот)",
+  "category": "Мессенджеры",
+  "icon": "chat",
+  "color": "#229ED9",
+  "description": "Агент видит переписку отдельного Telegram-бота и анализирует её. По умолчанию только наблюдение; ответы можно разрешить переключателем.",
+  "help": "Создайте отдельного бота через @BotFather и добавьте его в нужные чаты. Для групп отключите Privacy Mode, если бот должен видеть обычные сообщения. Не используйте здесь бота, который уже получает обновления другим сервисом: Telegram допускает только один webhook или один long-polling-получатель.",
+  "fields": [
+    {
+      "key": "TELEGRAM_BOT_TOKEN",
+      "label": "Токен Telegram-бота",
+      "secret": true,
+      "required": true,
+      "write_only": true,
+      "helper": "Хранится в AgentDesk. Агенту передаётся только если вы разрешили ему отвечать."
+    },
+    {
+      "key": "TELEGRAM_WAKE",
+      "label": "Как часто будить агента при новых сообщениях",
+      "secret": false,
+      "required": false,
+      "agentdesk_only": true,
+      "default": "15",
+      "options": [
+        {"value": "0", "label": "Не будить: только по запросу"},
+        {"value": "5", "label": "Каждые 5 минут"},
+        {"value": "15", "label": "Каждые 15 минут"},
+        {"value": "60", "label": "Раз в час"}
+      ],
+      "helper": "Если пришли новые сообщения, агенту приходит напоминание разобрать их. Прерывает его текущую задачу."
+    }
+  ],
+  "marker_env": "AGENT_CHAT_ENABLED",
+  "configured_when": ["AGENT_CHAT_ENABLED"],
+  "instructions_file": "telegram.md",
+  "readonly_file": "telegram.readonly.md",
+  "write_file": "telegram.write.md",
+  "write_supported": true,
+  "readonly_label": "Только наблюдение",
+  "readonly_help": "Агент только читает переписку и ничего не отправляет в Telegram. Токен бота до него не доходит.",
+  "write_help": "Агент сможет отвечать через этого бота. Опишите в поле «Для чего использовать», когда ему можно это делать.",
+  "listener": "telegram",
+  "check_file": "telegram.check.py",
+  "tool": {
+    "file": "deploy/agent-tools/agent-chat.py",
+    "dest": "/usr/local/bin/agent-chat"
+  }
+}

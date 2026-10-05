@@ -1,0 +1,32 @@
+{
+  "people": [
+    {
+      "username": "team_member_one",
+      "display_name": "Мария",
+      "role": "руководитель проекта",
+      "description": "Координирует команду и помогает выбирать приоритеты.",
+      "motivation_goal": "Помогать выбирать небольшой осмысленный следующий шаг.",
+      "cautions": "Не давить и не пересказывать личные сведения публично.",
+      "motivation_style": "Конкретная поддержка и уважение к самостоятельности.",
+      "news_interests": "управление продуктом и технологии",
+      "allow_mild_profanity": false,
+      "daily_time": "10:20",
+      "daily_timezone": "Europe/Moscow",
+      "motivation_enabled": true
+    },
+    {
+      "username": "team_member_two",
+      "display_name": "Иван",
+      "role": "разработчик",
+      "description": "Разрабатывает продукт и поддерживает рабочий ритм команды.",
+      "motivation_goal": "Поддерживать ощущение управляемости и ценность последовательных действий.",
+      "cautions": "Не превращать дружеское сообщение в контроль или рабочее поручение.",
+      "motivation_style": "Спокойный, уважительный тон, конкретика и мягкий юмор.",
+      "news_interests": "разработка продуктов и технологии",
+      "allow_mild_profanity": false,
+      "daily_time": "15:10",
+      "daily_timezone": "Europe/Moscow",
+      "motivation_enabled": true
+    }
+  ]
+}

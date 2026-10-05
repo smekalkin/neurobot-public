@@ -1,0 +1,103 @@
+{
+  "id": "custom-api",
+  "title": "Свой сервис (REST API)",
+  "category": "Универсальные",
+  "icon": "api",
+  "color": "#0EA5E9",
+  "description": "Любая CRM или внутренняя система с REST API: адрес, способ входа и описание — и агент работает с ней командой agent-http. Секрет добавляется самим инструментом и агенту не виден. По умолчанию только чтение (GET).",
+  "help": "1) Укажите базовый адрес API и способ входа (токен, ключ в заголовке, логин и пароль или ключ в адресе). Лучше создать отдельного служебного пользователя или ключ с минимальными правами: права ключа — главное ограничение для агента.\n\n2) В поле «Для чего использовать» опишите систему своими словами: что это, какие данные где лежат, какие методы нужны, чего не трогать. Это попадёт в инструкции агента.\n\n3) Если у сервиса есть описание API (OpenAPI / Swagger, обычно адрес вида …/openapi.json), укажите его: агент сам найдёт нужные методы командой agent-http openapi.\n\nАгент обращается только на указанный сервер и не может выйти за его пределы. Ответы сервиса считаются недоверенными данными.",
+  "fields": [
+    {
+      "key": "API_BASE_URL",
+      "label": "Базовый адрес API",
+      "secret": false,
+      "required": true,
+      "placeholder": "https://crm.example.com/api/v2",
+      "helper": "Начало адреса всех запросов, без завершающего «/»."
+    },
+    {
+      "key": "API_AUTH",
+      "label": "Способ входа",
+      "secret": false,
+      "required": true,
+      "options": [
+        {
+          "value": "bearer",
+          "label": "Токен в заголовке Authorization: Bearer"
+        },
+        {
+          "value": "header",
+          "label": "Ключ в своём заголовке (например X-API-Key)"
+        },
+        {
+          "value": "basic",
+          "label": "Логин и пароль (Basic)"
+        },
+        {
+          "value": "query",
+          "label": "Ключ в параметре адреса (?api_key=…)"
+        },
+        {
+          "value": "none",
+          "label": "Без входа (открытый API)"
+        }
+      ],
+      "helper": "Как сервис проверяет, кто обращается."
+    },
+    {
+      "key": "API_TOKEN",
+      "label": "Токен, ключ или пароль",
+      "secret": true,
+      "required": false,
+      "helper": "Нужен для всех способов, кроме «Без входа». Агент его не увидит."
+    },
+    {
+      "key": "API_USER",
+      "label": "Логин (для Basic)",
+      "secret": false,
+      "required": false,
+      "placeholder": "service-user"
+    },
+    {
+      "key": "API_AUTH_NAME",
+      "label": "Имя заголовка или параметра",
+      "secret": false,
+      "required": false,
+      "placeholder": "X-API-Key",
+      "helper": "Для «своего заголовка» (по умолчанию X-API-Key) и «параметра адреса» (по умолчанию api_key). Для Bearer можно оставить пустым."
+    },
+    {
+      "key": "API_HEADERS",
+      "label": "Дополнительные заголовки (JSON)",
+      "secret": true,
+      "required": false,
+      "placeholder": "{\"X-Tenant\": \"acme\"}",
+      "helper": "Одной строкой, если сервис требует ещё что-то в каждом запросе."
+    },
+    {
+      "key": "API_OPENAPI_URL",
+      "label": "Адрес описания API (OpenAPI)",
+      "secret": false,
+      "required": false,
+      "placeholder": "https://crm.example.com/api/openapi.json",
+      "helper": "Необязательно, но сильно помогает агенту найти нужные методы."
+    }
+  ],
+  "configured_when": [
+    "API_BASE_URL",
+    "API_AUTH"
+  ],
+  "instructions_file": "custom-api.md",
+  "readonly_file": "custom-api.readonly.md",
+  "write_file": "custom-api.write.md",
+  "write_supported": true,
+  "write_env": "API_ALLOW_WRITE",
+  "readonly_label": "Только чтение",
+  "readonly_help": "Агент делает только запросы GET/HEAD: прочитать и найти. Менять данные в сервисе он не сможет.",
+  "write_help": "Агент сможет отправлять POST/PUT/PATCH/DELETE. Права ключа в самом сервисе остаются главным ограничением; опишите в поле «Для чего использовать», что менять можно.",
+  "check_file": "custom-api.check.py",
+  "tool": {
+    "file": "deploy/agent-tools/agent-http.py",
+    "dest": "/usr/local/bin/agent-http"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "icloud-drive",
+  "title": "iCloud Drive (через rclone)",
+  "category": "Файлы",
+  "icon": "cloud",
+  "color": "#3693F3",
+  "description": "Доступ к iCloud Drive через заранее авторизованный rclone. Требует установленный rclone и обновление доверенной сессии Apple примерно раз в 30 дней.",
+  "help": "У Apple нет серверного OAuth API для произвольных файлов личного iCloud Drive: CloudKit работает с контейнерами конкретного приложения. Поэтому эта интеграция использует backend iclouddrive в rclone. На доверенном компьютере выполните rclone config, пройдите Apple ID + 2FA, затем передайте содержимое отдельного rclone.conf в base64. Пароль приложения не подходит; доверенную сессию нужно периодически обновлять. Не используйте основной Apple ID — заведите отдельный служебный аккаунт.",
+  "fields": [
+    {"key":"ICLOUD_RCLONE_CONFIG_B64","label":"rclone.conf в base64","secret":true,"required":true,"helper":"Только секция отдельного служебного iCloud-аккаунта; не вставляйте конфиг с другими облаками."},
+    {"key":"ICLOUD_RCLONE_REMOTE","label":"Имя remote в rclone.conf","secret":false,"required":false,"default":"icloud"},
+    {"key":"ICLOUD_ROOT","label":"Корневая папка для агента","secret":false,"required":false,"placeholder":"AgentDesk","helper":"Ограничивает рабочую папку на уровне инструмента."}
+  ],
+  "configured_when":["ICLOUD_RCLONE_CONFIG_B64"],
+  "instructions_file":"icloud-drive.md",
+  "readonly_file":"icloud-drive.readonly.md",
+  "write_file":"icloud-drive.write.md",
+  "write_supported":true,
+  "write_env":"ICLOUD_ALLOW_WRITE",
+  "write_help":"На сервере агента должен быть установлен rclone с backend iclouddrive.",
+  "check_file":"icloud-drive.check.py",
+  "tool":{"file":"deploy/agent-tools/agent-icloud.py","dest":"/usr/local/bin/agent-icloud"}
+}

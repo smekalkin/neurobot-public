@@ -1,0 +1,17 @@
+[Unit]
+Description=neurobot agent-scheduler (runs the agents' scheduled tasks)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+# Same file the exporter uses: AGENTDESK_URL and this server's token, so the
+# scheduler can report runs back. Without it the schedule still runs.
+EnvironmentFile=-/etc/agent-exporter.env
+ExecStart=/usr/bin/python3 /opt/agent-scheduler/agent_scheduler.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

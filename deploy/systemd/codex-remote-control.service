@@ -1,0 +1,28 @@
+[Unit]
+Description=Codex Remote Control for Neurobot
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+User=neurobot
+Group=neurobot
+WorkingDirectory=/srv/neurobot-agent/workspace
+Environment=HOME=/srv/neurobot-agent
+Environment=CODEX_HOME=/srv/neurobot-agent/.codex
+Environment=SHELL=/bin/bash
+Environment=PATH=/srv/neurobot-agent/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/srv/neurobot-agent/.local/bin/codex remote-control start --json
+ExecStartPost=/bin/chmod 0750 /srv/neurobot-agent/.codex/app-server-control
+ExecStartPost=/bin/chmod 0660 /srv/neurobot-agent/.codex/app-server-control/app-server-control.sock
+ExecStop=-/srv/neurobot-agent/.local/bin/codex remote-control stop --json
+RemainAfterExit=yes
+Restart=on-failure
+RestartSec=30
+TimeoutStartSec=60
+TimeoutStopSec=30
+UMask=0007
+
+[Install]
+WantedBy=multi-user.target

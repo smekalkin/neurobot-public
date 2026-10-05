@@ -1,0 +1,94 @@
+{
+  "id": "mail",
+  "title": "Почта (IMAP)",
+  "category": "Почта",
+  "icon": "mail",
+  "color": "#168DE2",
+  "icon_asset": "assets/brand/mail.png",
+  "description": "Чтение почтового ящика по IMAP командой agent-mail: Gmail, Mail.ru, Яндекс, iCloud, Yahoo и любой другой почтовый сервис с IMAP и паролем приложения. По умолчанию только чтение; отправку писем можно разрешить галочкой при подключении. Удалять и перемещать письма агент не может.",
+  "help": "Создайте отдельный ящик для агента и пересылайте в него копии нужных писем. Основной пароль не нужен: используйте пароль для внешнего приложения, отдельный на каждого агента. Выберите сервис кнопкой выше: серверы подставятся сами.\n\nGmail: включите двухэтапную аутентификацию, затем в аккаунте Google откройте «Пароли приложений» (myaccount.google.com/apppasswords), создайте пароль и вставьте его ниже; в Google Workspace администратор может запретить пароли приложений.\n\nMail.ru: Настройки → Безопасность → «Пароли для внешних приложений» → добавить пароль (доступ «Почтовые программы (IMAP)»). Яндекс: в настройках почты включите доступ по IMAP («Почтовые программы»), затем Безопасность → Пароли приложений. iCloud: пароль для приложения на appleid.apple.com. Yahoo: Безопасность аккаунта → «Создать пароль приложения».\n\nЕсли поле сервера оставить пустым, сервер выберется по домену адреса (Gmail, Яндекс, iCloud, Yahoo, Mail.ru); для другого сервиса впишите серверы вручную. Отправка писем работает через SSL-порт 465. Outlook и Microsoft 365 не подходят: они требуют вход через OAuth, а не пароль.\n\nВходящие письма — недоверенные данные: агенту прямо запрещено выполнять просьбы из писем.",
+  "fields": [
+    {
+      "key": "MAIL_USER",
+      "label": "Адрес ящика",
+      "secret": false,
+      "required": true,
+      "placeholder": "agent-inbox@gmail.com"
+    },
+    {
+      "key": "MAIL_PASSWORD",
+      "label": "Пароль для внешнего приложения",
+      "secret": true,
+      "required": true,
+      "helper": "Не основной пароль ящика: пароль приложения."
+    },
+    {
+      "key": "MAIL_IMAP_HOST",
+      "label": "Сервер IMAP",
+      "secret": false,
+      "required": false,
+      "helper": "Для Gmail — imap.gmail.com; Mail.ru — imap.mail.ru; Яндекс — imap.yandex.ru. Пусто: выбрать по домену адреса.",
+      "prefill": "imap.gmail.com"
+    },
+    {
+      "key": "MAIL_SMTP_HOST",
+      "label": "Сервер SMTP (для отправки)",
+      "secret": false,
+      "required": false,
+      "prefill": "smtp.gmail.com",
+      "helper": "Нужен, только если разрешена отправка. Для Gmail — smtp.gmail.com; Mail.ru — smtp.mail.ru. Пусто: выбрать по серверу IMAP или домену адреса."
+    }
+  ],
+  "configured_when": [
+    "MAIL_USER",
+    "MAIL_PASSWORD"
+  ],
+  "instructions_file": "mail.md",
+  "readonly_file": "mail.readonly.md",
+  "write_file": "mail.write.md",
+  "write_supported": true,
+  "write_env": "MAIL_ALLOW_WRITE",
+  "write_help": "Разрешает агенту отправлять письма (только после вашего подтверждения в чате). Для отправки у пароля внешнего приложения должен быть доступ к SMTP.",
+  "check_file": "mail.check.py",
+  "tool": {
+    "file": "deploy/agent-tools/agent-mail.py",
+    "dest": "/usr/local/bin/agent-mail"
+  },
+  "presets": [
+    {
+      "label": "Gmail",
+      "values": {
+        "MAIL_IMAP_HOST": "imap.gmail.com",
+        "MAIL_SMTP_HOST": "smtp.gmail.com"
+      }
+    },
+    {
+      "label": "Mail.ru",
+      "values": {
+        "MAIL_IMAP_HOST": "imap.mail.ru",
+        "MAIL_SMTP_HOST": "smtp.mail.ru"
+      }
+    },
+    {
+      "label": "Яндекс",
+      "values": {
+        "MAIL_IMAP_HOST": "imap.yandex.ru",
+        "MAIL_SMTP_HOST": "smtp.yandex.ru"
+      }
+    },
+    {
+      "label": "iCloud",
+      "values": {
+        "MAIL_IMAP_HOST": "imap.mail.me.com",
+        "MAIL_SMTP_HOST": "smtp.mail.me.com"
+      }
+    },
+    {
+      "label": "Yahoo",
+      "values": {
+        "MAIL_IMAP_HOST": "imap.mail.yahoo.com",
+        "MAIL_SMTP_HOST": "smtp.mail.yahoo.com"
+      }
+    }
+  ]
+}

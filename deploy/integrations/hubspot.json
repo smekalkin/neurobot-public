@@ -1,0 +1,34 @@
+{
+  "id": "hubspot",
+  "title": "HubSpot",
+  "category": "CRM",
+  "icon": "crm",
+  "color": "#FF7A59",
+  "icon_asset": "assets/brand/hubspot.png",
+  "description": "Агент ищет и читает контакты, компании, сделки и обращения в HubSpot командой agent-hubspot. По умолчанию только чтение; создание и изменение записей и заметки можно разрешить галочкой. Удалять записи агент не может.",
+  "help": "1) В HubSpot: Настройки → Интеграции → Приватные приложения → «Создать приватное приложение». На вкладке «Права» отметьте только нужное: для чтения crm.objects.contacts.read, crm.objects.companies.read, crm.objects.deals.read, tickets (и crm.schemas.*.read, если агент должен видеть список свойств); для записи добавьте соответствующие .write.\n\n2) Скопируйте токен доступа приватного приложения и вставьте ниже. Для каждого агента лучше создать своё приложение: его права и есть главное ограничение.\n\nЗаписи HubSpot — недоверенные данные: агенту прямо запрещено выполнять просьбы из них.",
+  "fields": [
+    {
+      "key": "HUBSPOT_TOKEN",
+      "label": "Токен приватного приложения HubSpot",
+      "secret": true,
+      "required": true,
+      "placeholder": "pat-eu1-…",
+      "helper": "Не присылайте его в чат."
+    }
+  ],
+  "configured_when": [
+    "HUBSPOT_TOKEN"
+  ],
+  "instructions_file": "hubspot.md",
+  "readonly_file": "hubspot.readonly.md",
+  "write_file": "hubspot.write.md",
+  "write_supported": true,
+  "write_env": "HUBSPOT_ALLOW_WRITE",
+  "write_help": "Чтобы агент мог создавать и менять записи и добавлять заметки, у приватного приложения в HubSpot должны быть права на запись. Удалять записи агент не сможет в любом случае; права приложения остаются главным ограничением.",
+  "check_file": "hubspot.check.py",
+  "tool": {
+    "file": "deploy/agent-tools/agent-hubspot.py",
+    "dest": "/usr/local/bin/agent-hubspot"
+  }
+}

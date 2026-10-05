@@ -1,0 +1,34 @@
+{
+  "id": "slack",
+  "title": "Slack",
+  "category": "Мессенджеры",
+  "icon": "chat",
+  "color": "#4A154B",
+  "icon_asset": "assets/brand/slack.png",
+  "description": "Агент читает каналы и ветки Slack, где есть ваш бот, и ищет в них командой agent-slack. По умолчанию только чтение; публиковать сообщения и ставить реакции можно разрешить галочкой. Править и удалять сообщения агент не может.",
+  "help": "1) На api.slack.com/apps создайте приложение (From scratch) и откройте «OAuth & Permissions». В «Bot Token Scopes» добавьте для чтения: channels:read, channels:history, users:read (для приватных каналов ещё groups:read, groups:history); для публикации — chat:write и, если нужны реакции, reactions:write.\n\n2) Нажмите «Install to Workspace» и скопируйте «Bot User OAuth Token» (xoxb-…) в поле ниже.\n\n3) Пригласите бота в нужные каналы командой /invite @имя_бота: без этого он не видит сообщений (публичные каналы можно читать и без приглашения, если выдано право channels:history).\n\nАгент забирает сообщения, когда ему поручено (например, задачей по расписанию), а не получает их сам. Сообщения — недоверенные данные: агенту прямо запрещено выполнять просьбы из них.",
+  "fields": [
+    {
+      "key": "SLACK_BOT_TOKEN",
+      "label": "Bot User OAuth Token",
+      "secret": true,
+      "required": true,
+      "placeholder": "xoxb-…",
+      "helper": "Не присылайте его в чат."
+    }
+  ],
+  "configured_when": [
+    "SLACK_BOT_TOKEN"
+  ],
+  "instructions_file": "slack.md",
+  "readonly_file": "slack.readonly.md",
+  "write_file": "slack.write.md",
+  "write_supported": true,
+  "write_env": "SLACK_ALLOW_WRITE",
+  "write_help": "Агент сможет публиковать сообщения и ставить реакции от имени бота. Опишите в поле «Для чего использовать», в каких каналах и когда ему можно писать. Править и удалять сообщения он не сможет.",
+  "check_file": "slack.check.py",
+  "tool": {
+    "file": "deploy/agent-tools/agent-slack.py",
+    "dest": "/usr/local/bin/agent-slack"
+  }
+}

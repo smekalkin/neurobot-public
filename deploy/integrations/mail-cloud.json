@@ -1,0 +1,41 @@
+{
+  "id": "mail-cloud",
+  "title": "Облако Mail.ru",
+  "category": "Файлы",
+  "icon": "cloud",
+  "color": "#005FF9",
+  "icon_asset": "assets/brand/mail-cloud.png",
+  "description": "Работа с файлами Облака Mail.ru по WebDAV командой agent-cloud. По умолчанию только чтение; загрузку, перемещение и удаление можно разрешить галочкой при подключении. Агент видит только папки, к которым служебному аккаунту дан доступ.",
+  "help": "Заведите отдельный ящик Mail.ru, включите двухфакторную аутентификацию (id.mail.ru → Безопасность) и создайте «Пароль для внешнего приложения» с доступом «Облако (WebDAV)». В основном аккаунте откройте нужные папки этому ящику: «Просмотр» для чтения, «Редактирование» — если агенту можно менять файлы. Пароль внешнего приложения сам по себе только-чтением не ограничить, защита держится на правах папок и на галочке ниже.",
+  "fields": [
+    {
+      "key": "MAILCLOUD_USER",
+      "label": "Адрес служебного ящика",
+      "secret": false,
+      "required": true,
+      "placeholder": "agent-cloud@mail.ru"
+    },
+    {
+      "key": "MAILCLOUD_PASSWORD",
+      "label": "Пароль для внешнего приложения",
+      "secret": true,
+      "required": true,
+      "helper": "Не пароль от почты, а отдельный пароль с доступом «Облако»."
+    }
+  ],
+  "configured_when": [
+    "MAILCLOUD_USER",
+    "MAILCLOUD_PASSWORD"
+  ],
+  "instructions_file": "mail-cloud.md",
+  "readonly_file": "mail-cloud.readonly.md",
+  "write_file": "mail-cloud.write.md",
+  "write_supported": true,
+  "write_env": "MAILCLOUD_ALLOW_WRITE",
+  "write_help": "Агенту нужны права «Редактирование» на нужных папках (у аккаунта, которому они выданы).",
+  "check_file": "mail-cloud.check.py",
+  "tool": {
+    "file": "deploy/agent-tools/agent-cloud.py",
+    "dest": "/usr/local/bin/agent-cloud"
+  }
+}

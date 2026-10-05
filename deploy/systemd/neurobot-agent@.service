@@ -1,0 +1,33 @@
+[Unit]
+Description=Neurobot Telegram Agent (%i)
+After=network-online.target codex-remote-control.service
+Wants=network-online.target codex-remote-control.service
+
+[Service]
+Type=simple
+User=neurobot
+Group=neurobot
+WorkingDirectory=/srv/neurobot-%i
+EnvironmentFile=/etc/neurobot/%i.env
+ExecStart=/usr/bin/python3 /opt/neurobot/src/neurobot/bot.py
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+UMask=0007
+
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectClock=true
+RestrictSUIDSGID=true
+LockPersonality=true
+CapabilityBoundingSet=
+ReadWritePaths=/srv/neurobot-%i
+
+[Install]
+WantedBy=multi-user.target

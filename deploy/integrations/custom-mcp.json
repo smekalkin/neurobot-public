@@ -1,0 +1,78 @@
+{
+  "id": "custom-mcp",
+  "title": "MCP-сервер",
+  "category": "Универсальные",
+  "icon": "code",
+  "color": "#8B5CF6",
+  "description": "Подключите готовый MCP-сервер сервиса (CRM, трекер, база знаний и т. д.): его инструменты появятся у агента сами. Ключ хранится только в окружении сервера агента.",
+  "help": "Нужен адрес MCP-сервера по HTTP (streamable HTTP или SSE) и, если сервис требует, токен. Многие сервисы публикуют такие серверы в своей документации.\n\nИнструменты сервера агент увидит после перезапуска. Что именно он может менять, определяют права токена в самом сервисе: инструкцию «только чтение» агент выполняет сам, технически её не проверить, поэтому для надёжности выдавайте токену только нужные права.\n\nОпишите в поле «Для чего использовать», зачем этот сервер и в каких случаях им пользоваться.",
+  "fields": [
+    {
+      "key": "MCP_URL",
+      "label": "Адрес MCP-сервера",
+      "secret": true,
+      "required": true,
+      "placeholder": "https://mcp.example.com/mcp",
+      "helper": "Только https://. Адрес скрыт: у некоторых сервисов ключ входит в адрес."
+    },
+    {
+      "key": "MCP_TRANSPORT",
+      "label": "Тип подключения",
+      "secret": false,
+      "required": false,
+      "default": "http",
+      "options": [
+        {
+          "value": "http",
+          "label": "HTTP (streamable HTTP)"
+        },
+        {
+          "value": "sse",
+          "label": "SSE (устаревший)"
+        }
+      ]
+    },
+    {
+      "key": "MCP_TOKEN",
+      "label": "Токен доступа",
+      "secret": true,
+      "required": false,
+      "helper": "Передаётся в заголовке запроса. Оставьте пустым, если сервис не требует."
+    },
+    {
+      "key": "MCP_AUTH_HEADER",
+      "label": "Заголовок для токена",
+      "secret": false,
+      "required": false,
+      "default": "Authorization",
+      "helper": "Обычно Authorization."
+    },
+    {
+      "key": "MCP_AUTH_SCHEME",
+      "label": "Префикс токена",
+      "secret": false,
+      "required": false,
+      "default": "Bearer",
+      "helper": "Обычно Bearer. Для заголовка с «голым» ключом (X-API-Key) поставьте «-»: токен пойдёт без префикса."
+    }
+  ],
+  "configured_when": [
+    "MCP_URL"
+  ],
+  "mcp": {
+    "url": "MCP_URL",
+    "transport": "MCP_TRANSPORT",
+    "token": "MCP_TOKEN",
+    "header": "MCP_AUTH_HEADER",
+    "scheme": "MCP_AUTH_SCHEME"
+  },
+  "instructions_file": "custom-mcp.md",
+  "readonly_file": "custom-mcp.readonly.md",
+  "write_file": "custom-mcp.write.md",
+  "write_supported": true,
+  "write_env": "MCP_ALLOW_WRITE",
+  "readonly_label": "Только чтение",
+  "readonly_help": "Агенту сказано только читать и искать. Технически это определяют права токена: выдавайте только нужные.",
+  "write_help": "Агент сможет вызывать инструменты, меняющие данные, — после подтверждения человеком в чате. Права токена остаются главным ограничением.",
+  "check_file": "custom-mcp.check.py"
+}

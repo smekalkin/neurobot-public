@@ -1,0 +1,34 @@
+{
+  "agents": {
+    "manager": {
+      "bot_id": 1234567890,
+      "username": "ExampleManagerBot",
+      "thread_id": 100,
+      "display_name": "Менеджер",
+      "role": "операционный менеджер",
+      "description": "Координирует сотрудников, проверяет результаты и определяет следующие действия.",
+      "motivation_style": "Ценит конкретику, спокойную поддержку и ощущение управляемости.",
+      "motivation_enabled": true
+    },
+    "marketing": {
+      "bot_id": 9876543210,
+      "username": "ExampleMarketingBot",
+      "thread_id": 200,
+      "display_name": "Маркетолог",
+      "role": "маркетолог",
+      "description": "Исследует рынок, готовит позиционирование, контент и персональные обращения.",
+      "motivation_style": "Поддерживай творческий темп без давления и напоминай ценность небольших проверяемых шагов.",
+      "motivation_enabled": true
+    },
+    "motivator": {
+      "bot_id": 1122334455,
+      "username": "ExampleMotivatorBot",
+      "thread_id": 300,
+      "display_name": "Мотиватор",
+      "role": "командный мотиватор",
+      "description": "Ежедневно инициирует короткий дружеский контакт с каждым сотрудником.",
+      "motivation_style": "Тёплый, ненавязчивый и уместно смешной.",
+      "motivation_enabled": false
+    }
+  }
+}

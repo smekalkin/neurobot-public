@@ -1,0 +1,25 @@
+{
+  "server": "example",
+  "fleet": [
+    {
+      "tenant": "example-developer", "agent": "claude", "backend": "claude",
+      "unit": "example-developer.service", "user": "example-developer",
+      "tmux_socket": "/home/example-developer/.claude/example-developer.tmux.sock",
+      "tmux_session": "example-developer",
+      "transcript_dir": "/home/example-developer/.claude/projects",
+      "credentials": "/home/example-developer/.claude/.credentials.json",
+      "telegram_bot": "@ExampleDeveloperBot",
+      "show_model_label": true,
+      "remote_control": true,
+      "role": "Разработчик", "project": "Example"
+    },
+    {
+      "tenant": "example-developer", "agent": "codex", "backend": "codex",
+      "user": "example-developer",
+      "codex_socket": "/home/example-developer/.codex/app-server-control/app-server-control.sock",
+      "codex_home": "/home/example-developer/.codex",
+      "workspace": "/home/example-developer/project"
+    }
+  ],
+  "bot_units": {}
+}

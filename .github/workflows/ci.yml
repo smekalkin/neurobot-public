@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: app server client
+        run: python3 -m unittest tests.test_appserver_client -v
+      - name: bot
+        run: python3 -m unittest tests.test_bot -v
+      - name: bot configuration
+        run: python3 -m unittest tests.test_bot_config -v
+      - name: channel gateway
+        run: python3 -m unittest tests.test_channel_gateway -v
+      - name: Claude executor
+        run: python3 -m unittest tests.test_claude_executor -v
+      - name: custom integrations
+        run: python3 -m unittest tests.test_custom_integrations -v
+      - name: HubSpot and Slack integrations
+        run: python3 -m unittest tests.test_hubspot_slack_integrations -v
+      - name: integration catalog
+        run: python3 -m unittest tests.test_integrations_catalog -v
+      - name: relogin
+        run: python3 -m unittest tests.test_relogin -v
+      - name: agent-exporter
+        run: python3 -m unittest discover -s . -p "test_*.py"
+        working-directory: deploy/agent-exporter
+      - name: agent-tools
+        run: python3 -m unittest discover -s . -p "test_*.py"
+        working-directory: deploy/agent-tools
+      - name: agent-scheduler
+        run: python3 -m unittest discover -s . -p "test_*.py"
+        working-directory: deploy/agent-scheduler

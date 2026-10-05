@@ -1,0 +1,33 @@
+{
+  "id": "yandex-disk",
+  "title": "Яндекс.Диск",
+  "category": "Файлы",
+  "icon": "folder",
+  "color": "#FC3F1D",
+  "icon_asset": "assets/brand/yandex-disk.png",
+  "description": "Работа с файлами Яндекс.Диска командой agent-disk. По умолчанию только чтение; загрузку, перемещение и удаление можно разрешить переключателем.",
+  "help": "Заведите служебный аккаунт Яндекса. На oauth.yandex.ru создайте приложение (Веб-сервисы, Callback URL https://oauth.yandex.ru/verification_code). Для режима только чтения выдайте cloud_api:disk.read, для записи — cloud_api:disk.read и cloud_api:disk.write. Получите токен: https://oauth.yandex.ru/authorize?response_type=token&client_id=ID_ПРИЛОЖЕНИЯ",
+  "fields": [
+    {
+      "key": "YADISK_TOKEN",
+      "label": "OAuth-токен Яндекс.Диска",
+      "secret": true,
+      "required": true,
+      "helper": "Для чтения: cloud_api:disk.read. Для записи добавьте cloud_api:disk.write."
+    }
+  ],
+  "configured_when": [
+    "YADISK_TOKEN"
+  ],
+  "instructions_file": "yandex-disk.md",
+  "readonly_file": "yandex-disk.readonly.md",
+  "write_file": "yandex-disk.write.md",
+  "write_supported": true,
+  "write_env": "YADISK_ALLOW_WRITE",
+  "write_help": "OAuth-токен должен иметь право cloud_api:disk.write.",
+  "check_file": "yandex-disk.check.py",
+  "tool": {
+    "file": "deploy/agent-tools/agent-disk.py",
+    "dest": "/usr/local/bin/agent-disk"
+  }
+}
